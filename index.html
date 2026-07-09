@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AqlChem - Leading Chemical Manufacturer & Supplier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#16233F;
+    --navy-2:#1E3358;
+    --paper:#FAF6EC;
+    --paper-2:#F1EADA;
+    --gold:#C89B3C;
+    --gold-dark:#A87F2C;
+    --sage:#6E8B63;
+    --sage-dark:#54704B;
+    --berry:#8A3E4A;
+    --ink:#211C15;
+    --ink-soft:#5B5548;
+    --line:#E1D6BC;
+    --white:#FFFDF8;
+    --radius:2px;
+    --shadow: 0 10px 30px rgba(22,35,63,0.08);
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Fraunces',serif;
+    margin:0;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    color:var(--navy);
+  }
+  a{color:inherit;text-decoration:none;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  img,svg{display:block;max-width:100%;}
+  button{font-family:inherit;cursor:pointer;border:none;}
+  .screen{display:none;}
+  .screen.active{display:block;}
+
+  /* ===== Announcement bar ===== */
+  .announce{
+    background:var(--navy);
+    color:var(--paper-2);
+    text-align:center;
+    font-size:12.5px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:9px 16px;
+    font-family:'IBM Plex Mono',monospace;
+  }
+  .announce span{opacity:.55;margin:0 10px;}
+
+  /* ===== Header ===== */
+  header.site-header{
+    background:var(--white);
+    border-bottom:1px solid var(--line);
+    position:sticky;top:0;z-index:100;
+  }
+  .nav-wrap{
+    max-width:1280px;margin:0 auto;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 28px;gap:24px;
+  }
+  .logo{
+    font-family:'Fraunces',serif;font-weight:700;font-size:26px;
+    color:var(--navy);display:flex;align-items:baseline;gap:6px;
+    letter-spacing:-0.02em;
+  }
+  .logo .dot{color:var(--gold);}
+  .logo small{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--ink-soft);letter-spacing:.14em;text-transform:uppercase;font-weight:600;display:block;margin-top:2px;}
+  nav.main-nav{display:flex;align-items:center;gap:2px;flex:1;justify-content:center;flex-wrap:wrap;}
+  nav.main-nav > .nav-item{position:relative;}
+  nav.main-nav > .nav-item > a, nav.main-nav > .nav-item > span{
+    display:block;padding:10px 14px;font-size:13.5px;font-weight:600;
+    color:var(--navy);cursor:pointer;letter-spacing:0.02em;
+    border-bottom:2px solid transparent;transition:.15s;
+  }
+  nav.main-nav > .nav-item:hover > a, nav.main-nav > .nav-item:hover > span{border-bottom:2px solid var(--gold);}
+  .dropdown{
+    position:absolute;top:100%;left:0;background:var(--white);
+    border:1px solid var(--line);box-shadow:var(--shadow);
+    min-width:220px;padding:10px 0;display:none;z-index:50;
+  }
+  .nav-item:hover .dropdown{display:block;}
+  .dropdown a{display:block;padding:9px 18px;font-size:13px;color:var(--ink-soft);font-weight:500;}
+  .dropdown a:hover{background:var(--paper-2);color:var(--navy);}
+  .header-actions{display:flex;align-items:center;gap:18px;}
+  .icon-btn{
+    display:flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--navy);
+    padding:8px 6px;
+  }
+  .icon-btn svg{width:19px;height:19px;}
+  .cart-count{background:var(--gold);color:var(--white);border-radius:50%;width:16px;height:16px;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:700;}
+
+  /* ===== Hero ===== */
+  .hero{
+    max-width:1280px;margin:0 auto;padding:56px 28px 40px;
+    display:grid;grid-template-columns:1.1fr 0.9fr;gap:48px;align-items:center;
+  }
+  .hero-eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--sage-dark);font-weight:600;
+    display:flex;align-items:center;gap:10px;margin-bottom:18px;
+  }
+  .hero-eyebrow::before{content:"";width:26px;height:1px;background:var(--sage-dark);}
+  .hero h1{font-size:clamp(34px,4.2vw,54px);line-height:1.06;}
+  .hero h1 em{font-style:italic;color:var(--gold-dark);}
+  .hero p.lede{font-size:17px;color:var(--ink-soft);max-width:480px;margin:20px 0 30px;line-height:1.6;}
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;padding:13px 26px;font-size:13.5px;
+    font-weight:700;letter-spacing:.03em;text-transform:uppercase;border-radius:var(--radius);
+    transition:.15s;
+  }
+  .btn-primary{background:var(--navy);color:var(--white);}
+  .btn-primary:hover{background:var(--navy-2);}
+  .btn-outline{background:transparent;color:var(--navy);border:1.5px solid var(--navy);}
+  .btn-outline:hover{background:var(--navy);color:var(--white);}
+  .hero-stats{display:flex;gap:30px;margin-top:38px;padding-top:26px;border-top:1px solid var(--line);}
+  .hero-stats div b{font-family:'Fraunces',serif;font-size:26px;color:var(--navy);display:block;}
+  .hero-stats div span{font-size:11.5px;color:var(--ink-soft);text-transform:uppercase;letter-spacing:.05em;}
+
+  /* Signature label card */
+  .label-card{
+    background:var(--white);border:1px solid var(--line);
+    padding:28px;position:relative;box-shadow:var(--shadow);
+  }
+  .label-card::before{
+    content:"";position:absolute;inset:8px;border:1px dashed var(--gold);pointer-events:none;
+  }
+  .label-tag{
+    position:absolute;top:-14px;left:28px;background:var(--gold);color:var(--white);
+    font-family:'IBM Plex Mono',monospace;font-size:10.5px;font-weight:600;letter-spacing:.1em;
+    text-transform:uppercase;padding:5px 12px;
+  }
+  .label-card h3{font-size:19px;margin-bottom:8px;}
+  .label-card .lc-sub{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-soft);letter-spacing:.05em;text-transform:uppercase;margin-bottom:18px;}
+  .lc-rows{display:flex;flex-direction:column;gap:11px;}
+  .lc-row{display:flex;justify-content:space-between;font-size:13px;padding-bottom:11px;border-bottom:1px solid var(--line);}
+  .lc-row span:first-child{color:var(--ink-soft);}
+  .lc-row span:last-child{font-weight:600;color:var(--navy);}
+
+  /* ===== Category strip ===== */
+  .section{max-width:1280px;margin:0 auto;padding:64px 28px;}
+  .section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:34px;gap:20px;flex-wrap:wrap;}
+  .section-head h2{font-size:clamp(24px,2.6vw,32px);}
+  .section-head .see-all{font-size:13px;font-weight:700;color:var(--gold-dark);text-transform:uppercase;letter-spacing:.04em;border-bottom:1.5px solid var(--gold-dark);padding-bottom:2px;white-space:nowrap;}
+  .eyebrow-sm{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--sage-dark);font-weight:600;margin-bottom:8px;}
+
+  .cat-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;}
+  .cat-tile{
+    background:var(--white);border:1px solid var(--line);padding:24px 12px;text-align:center;
+    transition:.15s;
+  }
+  .cat-tile:hover{border-color:var(--gold);transform:translateY(-3px);}
+  .cat-tile .ci{width:38px;height:38px;margin:0 auto 12px;color:var(--sage-dark);}
+  .cat-tile span{font-size:12.5px;font-weight:600;color:var(--navy);}
+
+  /* Segments (replaces "top clients" with generic industry badges) */
+  .seg-strip{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;padding:30px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .seg-pill{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.05em;
+    color:var(--ink-soft);border:1px solid var(--line);padding:9px 18px;text-transform:uppercase;font-weight:500;
+  }
+
+  /* ===== Product grid ===== */
+  .prod-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  .prod-card{background:var(--white);border:1px solid var(--line);overflow:hidden;position:relative;transition:.15s;}
+  .prod-card:hover{box-shadow:var(--shadow);border-color:var(--gold);}
+  .prod-media{aspect-ratio:1/1;background:var(--paper-2);display:flex;align-items:center;justify-content:center;position:relative;}
+  .prod-media svg{width:56%;height:56%;}
+  .sale-flag{position:absolute;top:10px;left:10px;background:var(--berry);color:var(--white);font-size:10px;font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:.06em;padding:4px 9px;text-transform:uppercase;}
+  .prod-info{padding:16px 16px 18px;}
+  .prod-info .pcat{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--sage-dark);font-weight:600;}
+  .prod-info h4{font-size:14.5px;margin:6px 0 10px;line-height:1.3;font-family:'Inter',sans-serif;font-weight:700;color:var(--ink);}
+  .price-row{display:flex;align-items:baseline;gap:8px;}
+  .price-now{font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--navy);font-size:14px;}
+  .price-old{font-family:'IBM Plex Mono',monospace;font-size:12px;color:#B0A78C;text-decoration:line-through;}
+  .add-btn{
+    margin-top:12px;width:100%;padding:10px;background:var(--paper-2);color:var(--navy);
+    font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;transition:.15s;
+  }
+  .add-btn:hover{background:var(--navy);color:var(--white);}
+
+  /* ===== Promise ===== */
+  .promise-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;background:var(--line);border:1px solid var(--line);}
+  .promise-card{background:var(--white);padding:38px 32px;}
+  .promise-card .pn{font-family:'IBM Plex Mono',monospace;color:var(--gold-dark);font-size:12px;font-weight:700;letter-spacing:.1em;}
+  .promise-card h3{font-size:19px;margin:14px 0 12px;}
+  .promise-card p{font-size:14px;color:var(--ink-soft);line-height:1.65;margin:0;}
+
+  /* ===== Collections banner grid ===== */
+  .coll-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
+  .coll-tile{aspect-ratio:3/4;background:var(--navy);position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:18px;}
+  .coll-tile::before{content:"";position:absolute;inset:0;background:linear-gradient(160deg,var(--navy-2),var(--navy) 70%);}
+  .coll-tile::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 20%, rgba(200,155,60,.35), transparent 55%);}
+  .coll-tile span{position:relative;color:var(--white);font-family:'Fraunces',serif;font-weight:600;font-size:16px;line-height:1.25;}
+
+  /* ===== Craft essentials ===== */
+  .craft-block{margin-bottom:52px;}
+  .craft-head{display:flex;align-items:baseline;gap:14px;margin-bottom:18px;}
+  .craft-head h3{font-size:20px;}
+  .craft-head .num{font-family:'IBM Plex Mono',monospace;color:var(--gold-dark);font-size:13px;font-weight:700;}
+  .craft-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .craft-tile{background:var(--white);border:1px solid var(--line);padding:22px;display:flex;flex-direction:column;gap:10px;min-height:130px;justify-content:space-between;}
+  .craft-tile h4{font-size:15px;color:var(--navy);}
+  .craft-tile a{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--gold-dark);}
+
+  /* ===== About ===== */
+  .about-wrap{background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .about-inner{max-width:1280px;margin:0 auto;padding:70px 28px;display:grid;grid-template-columns:0.85fr 1.15fr;gap:56px;}
+  .about-inner h2{font-size:30px;margin-bottom:20px;}
+  .about-inner .lede{font-size:16px;color:var(--ink-soft);line-height:1.7;}
+  .about-cols{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
+  .about-cols h4{font-size:12.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--gold-dark);margin-bottom:10px;font-family:'IBM Plex Mono',monospace;font-weight:700;}
+  .about-cols p{font-size:14px;color:var(--ink-soft);line-height:1.7;margin:0 0 20px;}
+
+  /* ===== Footer ===== */
+  footer{background:var(--navy);color:#CBD3E0;padding:64px 28px 24px;}
+  .footer-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1.4fr 1fr 1fr 1.3fr;gap:40px;}
+  .footer-inner h4{color:var(--white);font-size:12.5px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:18px;font-family:'IBM Plex Mono',monospace;}
+  .footer-inner ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px;}
+  .footer-inner a{font-size:13.5px;color:#AEB8CC;}
+  .footer-inner a:hover{color:var(--gold);}
+  .foot-logo{font-family:'Fraunces',serif;font-size:24px;color:var(--white);font-weight:700;margin-bottom:14px;}
+  .foot-desc{font-size:13.5px;color:#93A0BB;line-height:1.7;max-width:280px;}
+  .sub-row{display:flex;margin-top:16px;border:1px solid #33456B;}
+  .sub-row input{flex:1;background:transparent;border:none;padding:11px 14px;color:var(--white);font-size:13px;}
+  .sub-row input::placeholder{color:#6E7E9E;}
+  .sub-row button{background:var(--gold);color:var(--navy);padding:0 18px;font-weight:700;font-size:12px;text-transform:uppercase;}
+  .foot-bottom{max-width:1280px;margin:50px auto 0;padding-top:22px;border-top:1px solid #2A3B5E;display:flex;justify-content:space-between;font-size:12px;color:#7A87A5;flex-wrap:wrap;gap:10px;}
+
+  /* ===== LOGIN SCREEN ===== */
+  .login-shell{
+    min-height:100vh;display:flex;align-items:center;justify-content:center;
+    background:var(--navy);padding:40px 20px;position:relative;overflow:hidden;
+  }
+  .login-shell::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 18% 20%, rgba(200,155,60,.18), transparent 45%),radial-gradient(circle at 85% 80%, rgba(110,139,99,.18), transparent 45%);}
+  .login-box{position:relative;width:100%;max-width:420px;background:var(--white);border:1px solid var(--line);box-shadow:0 30px 60px rgba(0,0,0,.35);}
+  .login-top{padding:32px 32px 0;text-align:center;}
+  .login-top .logo{justify-content:center;margin-bottom:6px;}
+  .login-top p{font-size:13px;color:var(--ink-soft);margin:10px 0 0;}
+  .role-toggle{display:flex;margin:26px 32px 0;border:1px solid var(--line);}
+  .role-toggle button{flex:1;padding:11px;font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;background:var(--white);color:var(--ink-soft);}
+  .role-toggle button.active{background:var(--navy);color:var(--white);}
+  .login-form{padding:26px 32px 32px;}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--ink-soft);margin-bottom:7px;font-family:'IBM Plex Mono',monospace;}
+  .field input{
+    width:100%;padding:12px 13px;border:1px solid var(--line);background:var(--paper-2);
+    font-size:14px;color:var(--ink);font-family:'Inter',sans-serif;
+  }
+  .field input:focus{outline:none;border-color:var(--gold);background:var(--white);}
+  .login-submit{width:100%;padding:13px;background:var(--navy);color:var(--white);font-weight:700;font-size:13px;letter-spacing:.04em;text-transform:uppercase;margin-top:6px;}
+  .login-submit:hover{background:var(--navy-2);}
+  .demo-hint{margin-top:20px;background:var(--paper-2);border:1px dashed var(--line);padding:13px 15px;font-size:12px;color:var(--ink-soft);line-height:1.7;font-family:'IBM Plex Mono',monospace;}
+  .demo-hint b{color:var(--navy);}
+  .login-error{background:#FBE9E9;border:1px solid var(--berry);color:var(--berry);font-size:12.5px;padding:10px 13px;margin-bottom:14px;display:none;}
+  .back-store{display:block;text-align:center;margin-top:18px;font-size:12.5px;color:var(--ink-soft);}
+  .back-store:hover{color:var(--navy);}
+
+  /* ===== DASHBOARD ===== */
+  .dash-header{background:var(--navy);padding:0;}
+  .dash-nav{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:18px 28px;}
+  .dash-nav .logo{color:var(--white);}
+  .dash-nav .logo small{color:#8FA0C4;}
+  .dash-user{display:flex;align-items:center;gap:14px;}
+  .dash-user .who{text-align:right;}
+  .dash-user .who b{color:var(--white);font-size:13px;display:block;}
+  .dash-user .who span{color:#8FA0C4;font-size:11px;text-transform:uppercase;letter-spacing:.05em;}
+  .avatar{width:36px;height:36px;border-radius:50%;background:var(--gold);color:var(--navy);display:flex;align-items:center;justify-content:center;font-weight:700;font-family:'Fraunces',serif;}
+  .logout-btn{background:transparent;border:1px solid #33456B;color:#CBD3E0;padding:9px 16px;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.04em;}
+  .logout-btn:hover{border-color:var(--gold);color:var(--gold);}
+  .dash-body{max-width:1280px;margin:0 auto;padding:40px 28px 70px;}
+  .dash-title{margin-bottom:32px;}
+  .dash-title .eyebrow-sm{margin-bottom:6px;}
+  .dash-title h1{font-size:28px;}
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px;}
+  .stat-card{background:var(--white);border:1px solid var(--line);padding:22px;}
+  .stat-card .stat-label{font-family:'IBM Plex Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);margin-bottom:10px;}
+  .stat-card .stat-value{font-family:'Fraunces',serif;font-size:28px;color:var(--navy);}
+  .stat-card .stat-delta{font-size:11.5px;color:var(--sage-dark);font-weight:600;margin-top:6px;}
+  .panel{background:var(--white);border:1px solid var(--line);margin-bottom:24px;}
+  .panel-head{padding:18px 22px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;}
+  .panel-head h3{font-size:16px;}
+  table.dash-table{width:100%;border-collapse:collapse;}
+  table.dash-table th{
+    text-align:left;padding:12px 22px;font-family:'IBM Plex Mono',monospace;font-size:10.5px;
+    text-transform:uppercase;letter-spacing:.06em;color:var(--ink-soft);border-bottom:1px solid var(--line);
+  }
+  table.dash-table td{padding:14px 22px;font-size:13.5px;border-bottom:1px solid var(--line);color:var(--ink);}
+  table.dash-table tr:last-child td{border-bottom:none;}
+  .status-pill{padding:4px 10px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.03em;display:inline-block;}
+  .status-fulfilled{background:#E7EEE4;color:var(--sage-dark);}
+  .status-processing{background:#FBF1DC;color:var(--gold-dark);}
+  .status-pending{background:#F1EADA;color:var(--ink-soft);}
+  .two-col{display:grid;grid-template-columns:1.4fr 1fr;gap:24px;align-items:start;}
+  .profile-list{padding:6px 22px 20px;}
+  .profile-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:13.5px;}
+  .profile-row:last-child{border-bottom:none;}
+  .profile-row span:first-child{color:var(--ink-soft);}
+  .profile-row span:last-child{font-weight:600;color:var(--navy);}
+
+  @media(max-width:1080px){
+    .hero{grid-template-columns:1fr;}
+    .cat-grid{grid-template-columns:repeat(3,1fr);}
+    .prod-grid{grid-template-columns:repeat(2,1fr);}
+    .coll-grid{grid-template-columns:repeat(2,1fr);}
+    .about-inner{grid-template-columns:1fr;}
+    .footer-inner{grid-template-columns:1fr 1fr;}
+    .promise-grid{grid-template-columns:1fr;}
+    .craft-tiles{grid-template-columns:1fr;}
+    .stat-grid{grid-template-columns:repeat(2,1fr);}
+    .two-col{grid-template-columns:1fr;}
+    nav.main-nav{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ STOREFRONT ============================================================ -->
+<div id="storefront" class="screen active">
+
+  <div class="announce">Trusted by manufacturers for 25+ years <span>|</span> Serving retail &amp; bulk buyers <span>|</span> Pan-India delivery</div>
+
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a href="#" class="logo" onclick="return false;">Aql<span class="dot">Chem</span><small>Est. Chemical Supply Co.</small></a>
+
+      <nav class="main-nav">
+        <div class="nav-item"><a href="#home">HOME</a></div>
+        <div class="nav-item">
+          <span>SHOP</span>
+          <div class="dropdown">
+            <a href="#bestsellers">Chemicals</a>
+            <a href="#bestsellers">Herbal Extracts</a>
+            <a href="#bestsellers">Essential Oils</a>
+            <a href="#bestsellers">Colourants</a>
+            <a href="#bestsellers">Butters &amp; Waxes</a>
+            <a href="#bestsellers">Soap Bases</a>
+            <a href="#bestsellers">Fragrances</a>
+            <a href="#bestsellers">Clay Powders</a>
+            <a href="#bestsellers">All Products</a>
+          </div>
+        </div>
+        <div class="nav-item">
+          <span>FORMULATIONS</span>
+          <div class="dropdown">
+            <a href="#craft">Shampoo</a>
+            <a href="#craft">Soap</a>
+            <a href="#craft">Body</a>
+            <a href="#craft">Face</a>
+          </div>
+        </div>
+        <div class="nav-item"><a href="#craft">CANDLE KITS</a></div>
+        <div class="nav-item"><a href="#about">ABOUT US</a></div>
+        <div class="nav-item"><a href="#contact">CONTACT</a></div>
+      </nav>
+
+      <div class="header-actions">
+        <a class="icon-btn" onclick="showLogin()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"/></svg>
+          Log in
+        </a>
+        <a class="icon-btn" onclick="return false;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3h2l2.6 12.4a2 2 0 0 0 2 1.6h8.8a2 2 0 0 0 2-1.6L22 8H6"/><circle cx="10" cy="21" r="1"/><circle cx="18" cy="21" r="1"/></svg>
+          <span class="cart-count" id="cartCount">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div>
+      <div class="hero-eyebrow">Wholesale &amp; Bulk Raw Materials</div>
+      <h1>The ingredients behind your <em>next formulation.</em></h1>
+      <p class="lede">AqlChem supplies chemicals, herbal extracts, essential oils and craft-grade raw materials to cosmetic brands, soap makers, candle studios and pharma buyers across India.</p>
+      <div class="hero-ctas">
+        <a href="#bestsellers" class="btn btn-primary">Shop Best Sellers</a>
+        <a href="#about" class="btn btn-outline">Our Story</a>
+      </div>
+      <div class="hero-stats">
+        <div><b>25+</b><span>Years Trading</span></div>
+        <div><b>12K+</b><span>Bulk Customers</span></div>
+        <div><b>300+</b><span>Raw Materials</span></div>
+      </div>
+    </div>
+    <div class="label-card">
+      <div class="label-tag">Batch No. AQ-0142</div>
+      <h3>Lavender Essential Oil</h3>
+      <div class="lc-sub">100% Pure &middot; Steam Distilled</div>
+      <div class="lc-rows">
+        <div class="lc-row"><span>Origin</span><span>Himachal Pradesh</span></div>
+        <div class="lc-row"><span>Grade</span><span>Cosmetic / Aromatherapy</span></div>
+        <div class="lc-row"><span>Pack Size</span><span>100ml &ndash; 5L</span></div>
+        <div class="lc-row"><span>MOQ</span><span>1 Unit (Bulk Priced)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORY STRIP -->
+  <section class="section" style="padding-top:10px;padding-bottom:40px;">
+    <div class="cat-grid">
+      <div class="cat-tile"><svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 2h6M10 2v6l-5 10a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-10V2"/></svg><span>Cosmetic Making</span></div>
+      <div class="cat-tile"><svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2v4M8 21h8l-1-7H9l-1 7Z"/><path d="M9 14c-1-3 .5-5 3-7 2.5 2 4 4 3 7"/></svg><span>Candle Making</span></div>
+      <div class="cat-tile"><svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="7" y="3" width="10" height="18" rx="3"/><path d="M7 9h10"/></svg><span>Pharmaceuticals</span></div>
+      <div class="cat-tile"><svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg><span>Sampling</span></div>
+      <div class="cat-tile"><svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21c4-3 7-6.5 7-10a7 7 0 1 0-14 0c0 3.5 3 7 7 10Z"/><circle cx="12" cy="11" r="2.5"/></svg><span>Personal Care</span></div>
+      <div class="cat-tile"><svg class="ci" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 11 12 3l9 8"/><path d="M5 10v10h14V10"/></svg><span>Home &amp; Office</span></div>
+    </div>
+  </section>
+
+  <!-- SEGMENTS (generic, no third-party logos) -->
+  <div class="seg-strip">
+    <div class="seg-pill">Cosmetic Brands</div>
+    <div class="seg-pill">Soap Studios</div>
+    <div class="seg-pill">Candle Makers</div>
+    <div class="seg-pill">Pharma Distributors</div>
+    <div class="seg-pill">Spa &amp; Wellness</div>
+    <div class="seg-pill">Independent Formulators</div>
+  </div>
+
+  <!-- BEST SELLERS -->
+  <section class="section" id="bestsellers">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow-sm">Most Reordered</div>
+        <h2>Best Sellers</h2>
+      </div>
+      <a class="see-all" href="#bestsellers">View all products &rarr;</a>
+    </div>
+    <div class="prod-grid" id="bestSellerGrid"></div>
+  </section>
+
+  <!-- NEW LAUNCHES -->
+  <section class="section" style="padding-top:0;">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow-sm">Just Added</div>
+        <h2>Recent Launches</h2>
+      </div>
+      <a class="see-all" href="#bestsellers">View all &rarr;</a>
+    </div>
+    <div class="prod-grid" id="newLaunchGrid"></div>
+  </section>
+
+  <!-- PROMISE -->
+  <section class="section" style="padding-top:20px;">
+    <div class="promise-grid">
+      <div class="promise-card"><div class="pn">01 &mdash; QUALITY</div><h3>Batch-tested materials</h3><p>Every raw material passes quality checks before it ships, so what you formulate with is consistent, order after order.</p></div>
+      <div class="promise-card"><div class="pn">02 &mdash; PRICING</div><h3>Real wholesale rates</h3><p>Direct supplier relationships mean bulk pricing that scales with your order size, not inflated retail markups.</p></div>
+      <div class="promise-card"><div class="pn">03 &mdash; SERVICE</div><h3>Door-to-door delivery</h3><p>We handle logistics end to end, with tracked delivery across India so you can focus on what you're building.</p></div>
+    </div>
+  </section>
+
+  <!-- COLLECTIONS -->
+  <section class="section">
+    <div class="section-head"><div><div class="eyebrow-sm">Browse By Category</div><h2>Explore Our Collections</h2></div></div>
+    <div class="coll-grid">
+      <div class="coll-tile"><span>Chemicals</span></div>
+      <div class="coll-tile"><span>Essential Oils</span></div>
+      <div class="coll-tile"><span>Herbal Extracts</span></div>
+      <div class="coll-tile"><span>Soap Bases</span></div>
+      <div class="coll-tile"><span>Fragrance Oils</span></div>
+    </div>
+  </section>
+
+  <!-- CRAFT ESSENTIALS -->
+  <section class="section" id="craft">
+    <div class="craft-block">
+      <div class="craft-head"><span class="num">A</span><h3>Candle Crafting Essentials</h3></div>
+      <div class="craft-tiles">
+        <div class="craft-tile"><h4>Fragrance Oils for Candles</h4><a href="#bestsellers">View Products &rarr;</a></div>
+        <div class="craft-tile"><h4>Waxes for Candle</h4><a href="#bestsellers">View Products &rarr;</a></div>
+        <div class="craft-tile"><h4>Wicks &amp; Containers</h4><a href="#bestsellers">View Products &rarr;</a></div>
+      </div>
+    </div>
+    <div class="craft-block">
+      <div class="craft-head"><span class="num">B</span><h3>Soap Making Essentials</h3></div>
+      <div class="craft-tiles">
+        <div class="craft-tile"><h4>Essential Oils for Soap</h4><a href="#bestsellers">View Products &rarr;</a></div>
+        <div class="craft-tile"><h4>Fragrance Oils for Soap</h4><a href="#bestsellers">View Products &rarr;</a></div>
+        <div class="craft-tile"><h4>Soap Bases</h4><a href="#bestsellers">View Products &rarr;</a></div>
+      </div>
+    </div>
+    <div class="craft-block">
+      <div class="craft-head"><span class="num">C</span><h3>Personal Care Essentials</h3></div>
+      <div class="craft-tiles">
+        <div class="craft-tile"><h4>Butters &amp; Waxes</h4><a href="#bestsellers">View Products &rarr;</a></div>
+        <div class="craft-tile"><h4>Essential Oils</h4><a href="#bestsellers">View Products &rarr;</a></div>
+        <div class="craft-tile"><h4>Herbal Extracts</h4><a href="#bestsellers">View Products &rarr;</a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <div class="about-wrap" id="about">
+    <div class="about-inner">
+      <div>
+        <div class="eyebrow-sm">Since 1998</div>
+        <h2>Who we are</h2>
+        <p class="lede">AqlChem is an India-based supplier and manufacturer of chemical and craft-grade raw materials. Nearly three decades in, we work with cosmetic brands, pharma buyers, and independent makers who need materials they can depend on, order after order.</p>
+      </div>
+      <div class="about-cols">
+        <div>
+          <h4>Why buyers stay with us</h4>
+          <p>Consistent batch quality, responsible sourcing, and a support team that treats every order &mdash; sample or bulk &mdash; the same way. That combination has built a base of over 12,000 repeat customers.</p>
+          <h4>What we supply</h4>
+          <p>Chemicals, herbal extracts, essential oils, colourants, butters &amp; waxes, soap bases, fragrance oils, and clay powders &mdash; sourced and tested for cosmetic, pharmaceutical, and personal-use applications.</p>
+        </div>
+        <div>
+          <h4>Essential oils, done right</h4>
+          <p>Lavender for calm, rosemary for haircare, eucalyptus for spa and home use &mdash; our oils are pure, undiluted, and graded for cosmetic and aromatherapy use.</p>
+          <h4>Fragrance &amp; soap craft</h4>
+          <p>Long-lasting fragrance oils and melt-and-pour soap bases in glycerine, goat milk, and shea butter variants, built for makers who want to customise scent, texture, and finish.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer id="contact">
+    <div class="footer-inner">
+      <div>
+        <div class="foot-logo">AqlChem</div>
+        <p class="foot-desc">Chemical and raw-material supply for cosmetic, pharma, and craft businesses across India. Wholesale pricing, bulk-order friendly, delivered door to door.</p>
+        <div class="sub-row">
+          <input type="email" placeholder="Your email address">
+          <button onclick="alert('Thanks for subscribing!')">Subscribe</button>
+        </div>
+      </div>
+      <div>
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="#bestsellers">Chemicals</a></li>
+          <li><a href="#bestsellers">Herbal Extracts</a></li>
+          <li><a href="#bestsellers">Essential Oils</a></li>
+          <li><a href="#bestsellers">Colourants</a></li>
+          <li><a href="#bestsellers">Fragrances</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>More</h4>
+        <ul>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+          <li><a href="#" onclick="return false;">Shipping &amp; Returns</a></li>
+          <li><a href="#" onclick="return false;">Privacy &amp; Security</a></li>
+          <li><a href="#" onclick="return false;">Terms of Use</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Get in touch</h4>
+        <ul>
+          <li>hello@aqlchem.com</li>
+          <li>Mon&ndash;Sat, 9am&ndash;6pm IST</li>
+          <li><a onclick="showLogin()">Account Login &rarr;</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>&copy; 2026 AqlChem. All rights reserved.</span>
+      <span>Design inspired by the wholesale chemical supply category.</span>
+    </div>
+  </footer>
+</div>
+
+<!-- ============================================================ LOGIN ============================================================ -->
+<div id="loginScreen" class="screen">
+  <div class="login-shell">
+    <div class="login-box">
+      <div class="login-top">
+        <div class="logo" style="justify-content:center;">Aql<span class="dot">Chem</span></div>
+        <p>Sign in to manage your account</p>
+      </div>
+      <div class="role-toggle">
+        <button id="tabCustomer" class="active" onclick="setRole('customer')">Customer</button>
+        <button id="tabAdmin" onclick="setRole('admin')">Admin</button>
+      </div>
+      <form class="login-form" onsubmit="return doLogin(event)">
+        <div class="login-error" id="loginError">Incorrect email or password. Try again.</div>
+        <div class="field">
+          <label>Email address</label>
+          <input type="email" id="loginEmail" placeholder="you@example.com" required>
+        </div>
+        <div class="field">
+          <label>Password</label>
+          <input type="password" id="loginPassword" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" required>
+        </div>
+        <button type="submit" class="login-submit" id="loginSubmitBtn">Log in as Customer</button>
+        <div class="demo-hint" id="demoHint">
+          <b>Demo customer login</b><br>
+          Email: customer@example.com<br>
+          Password: customer123
+        </div>
+        <a class="back-store" onclick="showStorefront()">&larr; Back to store</a>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ ADMIN DASHBOARD ============================================================ -->
+<div id="adminScreen" class="screen">
+  <div class="dash-header">
+    <div class="dash-nav">
+      <div class="logo">Aql<span class="dot">Chem</span><small>Admin Console</small></div>
+      <div class="dash-user">
+        <div class="who"><b>Admin User</b><span>Administrator</span></div>
+        <div class="avatar">A</div>
+        <button class="logout-btn" onclick="doLogout()">Log out</button>
+      </div>
+    </div>
+  </div>
+  <div class="dash-body">
+    <div class="dash-title">
+      <div class="eyebrow-sm">Overview</div>
+      <h1>Welcome back, Admin</h1>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-label">Total Orders</div><div class="stat-value">1,284</div><div class="stat-delta">&uarr; 8.4% this month</div></div>
+      <div class="stat-card"><div class="stat-label">Revenue (MTD)</div><div class="stat-value mono">&#8377;18.6L</div><div class="stat-delta">&uarr; 12.1% this month</div></div>
+      <div class="stat-card"><div class="stat-label">Active Customers</div><div class="stat-value">12,043</div><div class="stat-delta">&uarr; 3.2% this month</div></div>
+      <div class="stat-card"><div class="stat-label">Low Stock SKUs</div><div class="stat-value">17</div><div class="stat-delta" style="color:var(--berry);">Needs attention</div></div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h3>Recent Orders</h3><span class="eyebrow-sm" style="margin:0;">Last 5</span></div>
+      <table class="dash-table">
+        <thead><tr><th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">#AQ-10231</td><td>Meera Textiles</td><td>Sodium Hydroxide Flakes &times;4</td><td class="mono">&#8377;7,880</td><td><span class="status-pill status-fulfilled">Fulfilled</span></td></tr>
+          <tr><td class="mono">#AQ-10230</td><td>Sunrise Soap Co.</td><td>Goat Milk Soap Base &times;10</td><td class="mono">&#8377;12,500</td><td><span class="status-pill status-processing">Processing</span></td></tr>
+          <tr><td class="mono">#AQ-10229</td><td>Priya Naturals</td><td>Lavender Essential Oil &times;2</td><td class="mono">&#8377;3,400</td><td><span class="status-pill status-fulfilled">Fulfilled</span></td></tr>
+          <tr><td class="mono">#AQ-10228</td><td>Studio Wick &amp; Wax</td><td>Paraffin Wax &times;20</td><td class="mono">&#8377;9,000</td><td><span class="status-pill status-pending">Pending</span></td></tr>
+          <tr><td class="mono">#AQ-10227</td><td>Kavya Cosmetics</td><td>Rose Hydrosol &times;6</td><td class="mono">&#8377;1,380</td><td><span class="status-pill status-fulfilled">Fulfilled</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head"><h3>Inventory Watch</h3><span class="eyebrow-sm" style="margin:0;">Low stock</span></div>
+      <table class="dash-table">
+        <thead><tr><th>Product</th><th>Category</th><th>In Stock</th><th>Reorder Level</th></tr></thead>
+        <tbody>
+          <tr><td>Camphor Essential Oil</td><td>Essential Oils</td><td class="mono">14 units</td><td class="mono">25 units</td></tr>
+          <tr><td>Isopropyl Alcohol (IPA)</td><td>Chemicals</td><td class="mono">8 units</td><td class="mono">30 units</td></tr>
+          <tr><td>Shea Butter Soap Base</td><td>Soap Bases</td><td class="mono">11 units</td><td class="mono">20 units</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ CUSTOMER DASHBOARD ============================================================ -->
+<div id="customerScreen" class="screen">
+  <div class="dash-header">
+    <div class="dash-nav">
+      <div class="logo">Aql<span class="dot">Chem</span><small>My Account</small></div>
+      <div class="dash-user">
+        <div class="who"><b>Customer</b><span>Retail Buyer</span></div>
+        <div class="avatar">C</div>
+        <button class="logout-btn" onclick="doLogout()">Log out</button>
+      </div>
+    </div>
+  </div>
+  <div class="dash-body">
+    <div class="dash-title">
+      <div class="eyebrow-sm">Overview</div>
+      <h1>Welcome back</h1>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-label">Total Orders</div><div class="stat-value">9</div><div class="stat-delta">2 in transit</div></div>
+      <div class="stat-card"><div class="stat-label">Total Spent</div><div class="stat-value mono">&#8377;24,150</div><div class="stat-delta">Since 2023</div></div>
+      <div class="stat-card"><div class="stat-label">Saved Items</div><div class="stat-value">6</div><div class="stat-delta">In your wishlist</div></div>
+      <div class="stat-card"><div class="stat-label">Reward Points</div><div class="stat-value">1,205</div><div class="stat-delta">&#8377;120 available</div></div>
+    </div>
+
+    <div class="two-col">
+      <div class="panel">
+        <div class="panel-head"><h3>Order History</h3></div>
+        <table class="dash-table">
+          <thead><tr><th>Order</th><th>Date</th><th>Items</th><th>Total</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">#AQ-9871</td><td>02 Jul 2026</td><td>Lavender Essential Oil</td><td class="mono">&#8377;850</td><td><span class="status-pill status-processing">Processing</span></td></tr>
+            <tr><td class="mono">#AQ-9744</td><td>18 Jun 2026</td><td>Rosemary Hydrosol, Clay Powder</td><td class="mono">&#8377;620</td><td><span class="status-pill status-fulfilled">Fulfilled</span></td></tr>
+            <tr><td class="mono">#AQ-9602</td><td>29 May 2026</td><td>Shea Butter Soap Base &times;2</td><td class="mono">&#8377;1,400</td><td><span class="status-pill status-fulfilled">Fulfilled</span></td></tr>
+            <tr><td class="mono">#AQ-9410</td><td>11 May 2026</td><td>Vanilla Fragrance Oil</td><td class="mono">&#8377;340</td><td><span class="status-pill status-fulfilled">Fulfilled</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><h3>Account Details</h3></div>
+        <div class="profile-list">
+          <div class="profile-row"><span>Name</span><span>Customer Account</span></div>
+          <div class="profile-row"><span>Email</span><span>customer@example.com</span></div>
+          <div class="profile-row"><span>Phone</span><span>+91 90000 00000</span></div>
+          <div class="profile-row"><span>Default Address</span><span>Bhagalpur, Bihar</span></div>
+          <div class="profile-row"><span>Member Since</span><span>Mar 2023</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ---------- Product data ---------- */
+  const bestSellers = [
+    {name:'Camphor Essential Oil', cat:'Essential Oils', price:170, old:195, icon:'bottle'},
+    {name:'Sodium Hydroxide Flakes', cat:'Chemicals', price:197, old:295, icon:'jar'},
+    {name:'Petroleum Jelly (White)', cat:'Personal Care', price:250, old:495, icon:'tub'},
+    {name:'Isopropyl Alcohol (IPA)', cat:'Chemicals', price:210, old:395, icon:'bottle'},
+  ];
+  const newLaunches = [
+    {name:'1,3 Propanediol', cat:'Chemicals', price:370, icon:'jar'},
+    {name:'C12-15 Alkyl Benzoate', cat:'Chemicals', price:370, icon:'bottle'},
+    {name:'Rose Hydrosol', cat:'Herbal Extracts', price:230, icon:'bottle'},
+    {name:'Chamomile Hydrosol', cat:'Herbal Extracts', price:230, icon:'bottle'},
+  ];
+
+  const icons = {
+    bottle: `<svg viewBox="0 0 64 96" fill="none" stroke="#16233F" stroke-width="2"><path d="M26 4h12v10l6 8v62a4 4 0 0 1-4 4H24a4 4 0 0 1-4-4V22l6-8V4Z"/><path d="M24 34h16"/><rect x="27" y="2" width="10" height="6" rx="1" fill="#C89B3C" stroke="none"/></svg>`,
+    jar: `<svg viewBox="0 0 64 96" fill="none" stroke="#16233F" stroke-width="2"><rect x="16" y="18" width="32" height="70" rx="4"/><rect x="20" y="6" width="24" height="14" rx="2" fill="#6E8B63" stroke="none"/><path d="M16 40h32"/></svg>`,
+    tub: `<svg viewBox="0 0 64 96" fill="none" stroke="#16233F" stroke-width="2"><path d="M14 30h36l-4 54a4 4 0 0 1-4 4H22a4 4 0 0 1-4-4L14 30Z"/><ellipse cx="32" cy="30" rx="18" ry="7" fill="#C89B3C" stroke="#16233F"/></svg>`,
+  };
+
+  function renderGrid(id, items){
+    const el = document.getElementById(id);
+    el.innerHTML = items.map(p => `
+      <div class="prod-card">
+        <div class="prod-media">
+          ${p.old ? '<div class="sale-flag">Sale</div>' : ''}
+          ${icons[p.icon]}
+        </div>
+        <div class="prod-info">
+          <div class="pcat">${p.cat}</div>
+          <h4>${p.name}</h4>
+          <div class="price-row">
+            <span class="price-now">Rs. ${p.price.toFixed(2)}</span>
+            ${p.old ? `<span class="price-old">Rs. ${p.old.toFixed(2)}</span>` : ''}
+          </div>
+          <button class="add-btn" onclick="addToCart('${p.name.replace(/'/g,"")}')">Add to cart</button>
+        </div>
+      </div>
+    `).join('');
+  }
+  renderGrid('bestSellerGrid', bestSellers);
+  renderGrid('newLaunchGrid', newLaunches);
+
+  let cartCount = 0;
+  function addToCart(name){
+    cartCount++;
+    document.getElementById('cartCount').textContent = cartCount;
+  }
+
+  /* ---------- Screen switching ---------- */
+  function show(id){
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0,0);
+  }
+  function showStorefront(){ show('storefront'); }
+  function showLogin(){
+    show('loginScreen');
+    document.getElementById('loginError').style.display='none';
+    document.getElementById('loginEmail').value='';
+    document.getElementById('loginPassword').value='';
+  }
+
+  /* ---------- Login logic ---------- */
+  const creds = {
+    admin: {email:'admin@aqlchem.com', password:'admin123'},
+    customer: {email:'customer@example.com', password:'customer123'}
+  };
+  let currentRole = 'customer';
+  function setRole(role){
+    currentRole = role;
+    document.getElementById('tabCustomer').classList.toggle('active', role==='customer');
+    document.getElementById('tabAdmin').classList.toggle('active', role==='admin');
+    document.getElementById('loginSubmitBtn').textContent = 'Log in as ' + (role==='admin' ? 'Admin' : 'Customer');
+    document.getElementById('loginError').style.display='none';
+    const hint = document.getElementById('demoHint');
+    if(role==='admin'){
+      hint.innerHTML = '<b>Demo admin login</b><br>Email: admin@aqlchem.com<br>Password: admin123';
+    } else {
+      hint.innerHTML = '<b>Demo customer login</b><br>Email: customer@example.com<br>Password: customer123';
+    }
+  }
+  function doLogin(e){
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+    const password = document.getElementById('loginPassword').value;
+    const c = creds[currentRole];
+    if(email === c.email && password === c.password){
+      show(currentRole === 'admin' ? 'adminScreen' : 'customerScreen');
+    } else {
+      document.getElementById('loginError').style.display='block';
+    }
+    return false;
+  }
+  function doLogout(){ showStorefront(); }
+</script>
+</body>
+</html>
