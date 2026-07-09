@@ -104,9 +104,14 @@
 
   /* ===== Hero ===== */
   .hero{
-    max-width:1280px;margin:0 auto;padding:56px 28px 40px;
+    max-width:1280px;margin:0 auto;padding:56px 28px 76px;
     display:grid;grid-template-columns:1.1fr 0.9fr;gap:48px;align-items:center;
   }
+  .hero-photo{
+    position:relative;aspect-ratio:4/5;overflow:hidden;border:1px solid var(--line);box-shadow:var(--shadow);
+  }
+  .hero-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+  .hero-photo .label-tag{top:auto;bottom:16px;left:16px;}
   .hero-eyebrow{
     font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:.16em;
     text-transform:uppercase;color:var(--sage-dark);font-weight:600;
@@ -202,9 +207,11 @@
   /* ===== Collections banner grid ===== */
   .coll-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;}
   .coll-tile{aspect-ratio:3/4;background:var(--navy);position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:18px;}
-  .coll-tile::before{content:"";position:absolute;inset:0;background:linear-gradient(160deg,var(--navy-2),var(--navy) 70%);}
-  .coll-tile::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 20%, rgba(200,155,60,.35), transparent 55%);}
-  .coll-tile span{position:relative;color:var(--white);font-family:'Fraunces',serif;font-weight:600;font-size:16px;line-height:1.25;}
+  .coll-tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .coll-tile::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg, rgba(22,35,63,0) 35%, rgba(22,35,63,.85) 100%);z-index:1;}
+  .coll-tile span{position:relative;z-index:2;color:var(--white);font-family:'Fraunces',serif;font-weight:600;font-size:16px;line-height:1.25;}
+  .coll-tile.no-photo{background:linear-gradient(160deg,var(--navy-2),var(--navy) 70%);}
+  .coll-tile.no-photo::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 20%, rgba(200,155,60,.35), transparent 55%);}
 
   /* ===== Craft essentials ===== */
   .craft-block{margin-bottom:52px;}
@@ -212,13 +219,19 @@
   .craft-head h3{font-size:20px;}
   .craft-head .num{font-family:'IBM Plex Mono',monospace;color:var(--gold-dark);font-size:13px;font-weight:700;}
   .craft-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
-  .craft-tile{background:var(--white);border:1px solid var(--line);padding:22px;display:flex;flex-direction:column;gap:10px;min-height:130px;justify-content:space-between;}
+  .craft-tile{background:var(--white);border:1px solid var(--line);overflow:hidden;display:flex;flex-direction:column;transition:.15s;}
+  .craft-tile:hover{border-color:var(--gold);}
+  .craft-tile .ct-photo{aspect-ratio:16/9;overflow:hidden;}
+  .craft-tile .ct-photo img{width:100%;height:100%;object-fit:cover;display:block;}
+  .craft-tile .ct-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:10px;flex:1;justify-content:space-between;}
   .craft-tile h4{font-size:15px;color:var(--navy);}
   .craft-tile a{font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--gold-dark);}
 
   /* ===== About ===== */
   .about-wrap{background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
   .about-inner{max-width:1280px;margin:0 auto;padding:70px 28px;display:grid;grid-template-columns:0.85fr 1.15fr;gap:56px;}
+  .about-photo{aspect-ratio:4/3;overflow:hidden;margin-bottom:24px;border:1px solid var(--line);}
+  .about-photo img{width:100%;height:100%;object-fit:cover;display:block;}
   .about-inner h2{font-size:30px;margin-bottom:20px;}
   .about-inner .lede{font-size:16px;color:var(--ink-soft);line-height:1.7;}
   .about-cols{display:grid;grid-template-columns:1fr 1fr;gap:32px;}
@@ -396,15 +409,19 @@
         <div><b>300+</b><span>Raw Materials</span></div>
       </div>
     </div>
-    <div class="label-card">
-      <div class="label-tag">Batch No. AQ-0142</div>
-      <h3>Lavender Essential Oil</h3>
-      <div class="lc-sub">100% Pure &middot; Steam Distilled</div>
-      <div class="lc-rows">
-        <div class="lc-row"><span>Origin</span><span>Himachal Pradesh</span></div>
-        <div class="lc-row"><span>Grade</span><span>Cosmetic / Aromatherapy</span></div>
-        <div class="lc-row"><span>Pack Size</span><span>100ml &ndash; 5L</span></div>
-        <div class="lc-row"><span>MOQ</span><span>1 Unit (Bulk Priced)</span></div>
+    <div style="position:relative;">
+      <div class="hero-photo">
+        <img src="https://images.unsplash.com/photo-1595871522483-00a17611a5e3?fm=jpg&q=70&w=1000&auto=format&fit=crop" alt="Essential oil bottles" loading="lazy">
+      </div>
+      <div class="label-card" style="position:absolute;left:-30px;bottom:-34px;width:78%;max-width:300px;">
+        <div class="label-tag">Batch No. AQ-0142</div>
+        <h3>Lavender Essential Oil</h3>
+        <div class="lc-sub">100% Pure &middot; Steam Distilled</div>
+        <div class="lc-rows">
+          <div class="lc-row"><span>Origin</span><span>Himachal Pradesh</span></div>
+          <div class="lc-row"><span>Pack Size</span><span>100ml &ndash; 5L</span></div>
+          <div class="lc-row"><span>MOQ</span><span>1 Unit (Bulk)</span></div>
+        </div>
       </div>
     </div>
   </section>
@@ -468,11 +485,11 @@
   <section class="section">
     <div class="section-head"><div><div class="eyebrow-sm">Browse By Category</div><h2>Explore Our Collections</h2></div></div>
     <div class="coll-grid">
-      <div class="coll-tile"><span>Chemicals</span></div>
-      <div class="coll-tile"><span>Essential Oils</span></div>
-      <div class="coll-tile"><span>Herbal Extracts</span></div>
-      <div class="coll-tile"><span>Soap Bases</span></div>
-      <div class="coll-tile"><span>Fragrance Oils</span></div>
+      <div class="coll-tile no-photo"><span>Chemicals</span></div>
+      <div class="coll-tile"><img src="https://images.unsplash.com/photo-1595871522483-00a17611a5e3?fm=jpg&q=65&w=600&auto=format&fit=crop" alt="Essential oils" loading="lazy"><span>Essential Oils</span></div>
+      <div class="coll-tile"><img src="https://images.unsplash.com/photo-1757802412806-433e4e60eec7?fm=jpg&q=65&w=600&auto=format&fit=crop" alt="Herbal extracts" loading="lazy"><span>Herbal Extracts</span></div>
+      <div class="coll-tile"><img src="https://images.pexels.com/photos/16244099/pexels-photo-16244099.jpeg?auto=compress&cs=tinysrgb&h=800&fit=crop&w=600" alt="Soap bases" loading="lazy"><span>Soap Bases</span></div>
+      <div class="coll-tile"><img src="https://images.unsplash.com/photo-1640095889747-2090ee12fa7d?fm=jpg&q=65&w=600&auto=format&fit=crop" alt="Fragrance and candle oils" loading="lazy"><span>Fragrance Oils</span></div>
     </div>
   </section>
 
@@ -481,25 +498,52 @@
     <div class="craft-block">
       <div class="craft-head"><span class="num">A</span><h3>Candle Crafting Essentials</h3></div>
       <div class="craft-tiles">
-        <div class="craft-tile"><h4>Fragrance Oils for Candles</h4><a href="#bestsellers">View Products &rarr;</a></div>
-        <div class="craft-tile"><h4>Waxes for Candle</h4><a href="#bestsellers">View Products &rarr;</a></div>
-        <div class="craft-tile"><h4>Wicks &amp; Containers</h4><a href="#bestsellers">View Products &rarr;</a></div>
+        <div class="craft-tile">
+          <div class="ct-photo"><img src="https://images.unsplash.com/photo-1640095889747-2090ee12fa7d?fm=jpg&q=65&w=500&auto=format&fit=crop" alt="Fragrance oils for candles" loading="lazy"></div>
+          <div class="ct-body"><h4>Fragrance Oils for Candles</h4><a href="#bestsellers">View Products &rarr;</a></div>
+        </div>
+        <div class="craft-tile">
+          <div class="ct-photo"><img src="https://images.unsplash.com/photo-1640095889747-2090ee12fa7d?fm=jpg&q=65&w=500&auto=format&fit=crop&sat=-40" alt="Waxes for candle making" loading="lazy"></div>
+          <div class="ct-body"><h4>Waxes for Candle</h4><a href="#bestsellers">View Products &rarr;</a></div>
+        </div>
+        <div class="craft-tile">
+          <div class="ct-photo"><img src="https://images.unsplash.com/photo-1640095889747-2090ee12fa7d?fm=jpg&q=65&w=500&auto=format&fit=crop&crop=top" alt="Wicks and containers" loading="lazy"></div>
+          <div class="ct-body"><h4>Wicks &amp; Containers</h4><a href="#bestsellers">View Products &rarr;</a></div>
+        </div>
       </div>
     </div>
     <div class="craft-block">
       <div class="craft-head"><span class="num">B</span><h3>Soap Making Essentials</h3></div>
       <div class="craft-tiles">
-        <div class="craft-tile"><h4>Essential Oils for Soap</h4><a href="#bestsellers">View Products &rarr;</a></div>
-        <div class="craft-tile"><h4>Fragrance Oils for Soap</h4><a href="#bestsellers">View Products &rarr;</a></div>
-        <div class="craft-tile"><h4>Soap Bases</h4><a href="#bestsellers">View Products &rarr;</a></div>
+        <div class="craft-tile">
+          <div class="ct-photo"><img src="https://images.unsplash.com/photo-1595871522483-00a17611a5e3?fm=jpg&q=65&w=500&auto=format&fit=crop" alt="Essential oils for soap" loading="lazy"></div>
+          <div class="ct-body"><h4>Essential Oils for Soap</h4><a href="#bestsellers">View Products &rarr;</a></div>
+        </div>
+        <div class="craft-tile">
+          <div class="ct-photo"><img src="https://images.pexels.com/photos/16244099/pexels-photo-16244099.jpeg?auto=compress&cs=tinysrgb&h=500&fit=crop&w=500" alt="Fragrance oils for soap" loading="lazy"></div>
+          <div class="ct-body"><h4>Fragrance Oils for Soap</h4><a href="#bestsellers">View Products &rarr;</a></div>
+        </div>
+        <div class="craft-tile">
+          <div class="ct-photo"><img src="https://images.pexels.com/photos/16244099/pexels-photo-16244099.jpeg?auto=compress&cs=tinysrgb&h=500&fit=crop&w=500&sat=-20" alt="Soap bases" loading="lazy"></div>
+          <div class="ct-body"><h4>Soap Bases</h4><a href="#bestsellers">View Products &rarr;</a></div>
+        </div>
       </div>
     </div>
     <div class="craft-block">
       <div class="craft-head"><span class="num">C</span><h3>Personal Care Essentials</h3></div>
       <div class="craft-tiles">
-        <div class="craft-tile"><h4>Butters &amp; Waxes</h4><a href="#bestsellers">View Products &rarr;</a></div>
-        <div class="craft-tile"><h4>Essential Oils</h4><a href="#bestsellers">View Products &rarr;</a></div>
-        <div class="craft-tile"><h4>Herbal Extracts</h4><a href="#bestsellers">View Products &rarr;</a></div>
+        <div class="craft-tile">
+          <div class="ct-photo"><img src="https://images.unsplash.com/photo-1757802412806-433e4e60eec7?fm=jpg&q=65&w=500&auto=format&fit=crop" alt="Butters and waxes" loading="lazy"></div>
+          <div class="ct-body"><h4>Butters &amp; Waxes</h4><a href="#bestsellers">View Products &rarr;</a></div>
+        </div>
+        <div class="craft-tile">
+          <div class="ct-photo"><img src="https://images.unsplash.com/photo-1595871522483-00a17611a5e3?fm=jpg&q=65&w=500&auto=format&fit=crop&crop=bottom" alt="Essential oils" loading="lazy"></div>
+          <div class="ct-body"><h4>Essential Oils</h4><a href="#bestsellers">View Products &rarr;</a></div>
+        </div>
+        <div class="craft-tile">
+          <div class="ct-photo"><img src="https://images.unsplash.com/photo-1757802412806-433e4e60eec7?fm=jpg&q=65&w=500&auto=format&fit=crop&crop=left" alt="Herbal extracts" loading="lazy"></div>
+          <div class="ct-body"><h4>Herbal Extracts</h4><a href="#bestsellers">View Products &rarr;</a></div>
+        </div>
       </div>
     </div>
   </section>
@@ -508,6 +552,7 @@
   <div class="about-wrap" id="about">
     <div class="about-inner">
       <div>
+        <div class="about-photo"><img src="https://images.unsplash.com/photo-1757802412806-433e4e60eec7?fm=jpg&q=70&w=800&auto=format&fit=crop" alt="Raw materials at AqlChem" loading="lazy"></div>
         <div class="eyebrow-sm">Since 1998</div>
         <h2>Who we are</h2>
         <p class="lede">AqlChem is an India-based supplier and manufacturer of chemical and craft-grade raw materials. Nearly three decades in, we work with cosmetic brands, pharma buyers, and independent makers who need materials they can depend on, order after order.</p>
